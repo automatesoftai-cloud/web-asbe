@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASBE — Automatiza tus ventas. Escala con estrategia.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #B71C1C;
+      --black:    #111111;
+      --gray-900: #1A1A1A;
+      --gray-600: #666666;
+      --gray-400: #999999;
+      --gray-200: #D4D4D4;
+      --gray-100: #F0F0F0;
+      --gray-50:  #F8F8F8;
+      --border:   #E5E5E5;
+      --white:    #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    .btn {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 13px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background .18s, color .18s, transform .18s;
+    }
+    .btn-primary { background: var(--red); color: var(--white); }
+    .btn-primary:hover { background: #9B1818; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-600);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--gray-400); color: var(--black); }
+
+    /* ═══════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 20px; font-weight: 900;
+      color: var(--red); text-decoration: none;
+      letter-spacing: .04em;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-600); text-decoration: none;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--black); }
+    @media (max-width: 740px) { .nav-links { display: none; } }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      padding: 88px 0 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 700px 500px at 110% 10%, rgba(183,28,28,.055) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at -5% 90%, rgba(183,28,28,.035) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* dot grid */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 680px;
+    }
+    .hero .container { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(34px, 4.2vw, 54px);
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      margin-bottom: 22px;
+    }
+    .hero h1 em { font-style: normal; color: var(--red); }
+    .hero-sub {
+      font-size: 16px; color: var(--gray-600);
+      line-height: 1.7; max-width: 500px; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .hero-footnote { font-size: 12px; color: var(--gray-400); margin-top: 14px; }
+
+    .hero-data {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    }
+    .hero-data-head {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      background: var(--gray-50);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-data-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+    .hero-data-title {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gray-400);
+    }
+    .hero-data-rows { padding: 4px 0; }
+    .hero-data-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 13px 22px;
+      border-bottom: 1px solid var(--gray-50);
+    }
+    .hero-data-row:last-child { border-bottom: none; }
+    .hdr-label { font-size: 13px; color: var(--gray-600); }
+    .hdr-val { font-size: 15px; font-weight: 900; color: var(--black); }
+    .hdr-val.accent { color: var(--red); }
+    .hdr-val.positive { color: #1B7A3E; }
+    .hero-data-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hdf-label { font-size: 12px; color: rgba(255,255,255,.45); }
+    .hdf-val { font-size: 20px; font-weight: 900; color: #4CAF50; }
+
+    @media (max-width: 880px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-data { max-width: 420px; }
+    }
+
+    /* ═══════════════════════════════════════
+       STRIP
+    ═══════════════════════════════════════ */
+    .strip {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--black);
+    }
+    .strip .strip-label { color: rgba(255,255,255,.3); border-right-color: rgba(255,255,255,.1); }
+    .strip .strip-item { border-right-color: rgba(255,255,255,.1); }
+    .strip .strip-item-val { color: #fff; }
+    .strip .strip-item-lbl { color: rgba(255,255,255,.4); }
+    .strip-inner { display: flex; align-items: center; flex-wrap: wrap; }
+    .strip-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gray-400);
+      padding-right: 28px; margin-right: 28px;
+      border-right: 1px solid var(--border);
+    }
+    .strip-items { display: flex; flex-wrap: wrap; }
+    .strip-item {
+      display: flex; flex-direction: column;
+      padding: 0 28px;
+      border-right: 1px solid var(--border);
+    }
+    .strip-item:last-child { border-right: none; }
+    .strip-item-val { font-size: 16px; font-weight: 900; color: var(--black); }
+    .strip-item-lbl { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+    /* ═══════════════════════════════════════
+       VALORES — solo 3 items
+    ═══════════════════════════════════════ */
+    .valores {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+    .valores-inner {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 80px; align-items: start;
+    }
+    .valores-left { position: sticky; top: 80px; }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 18px;
+    }
+    .valores-left h2 {
+      font-size: clamp(24px, 2.8vw, 36px);
+      font-weight: 900; color: var(--black);
+      line-height: 1.15; letter-spacing: -.02em; margin-bottom: 18px;
+    }
+    .valores-left p { font-size: 15px; color: var(--gray-600); line-height: 1.7; }
+    .valores-list { display: flex; flex-direction: column; }
+    .valor-item {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .valor-item:first-child { border-top: 1px solid var(--border); }
+    .valor-num { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: .08em; padding-top: 3px; }
+    .valor-title { font-size: 17px; font-weight: 700; color: var(--black); margin-bottom: 8px; line-height: 1.3; }
+    .valor-desc { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+
+    @media (max-width: 820px) {
+      .valores-inner { grid-template-columns: 1fr; gap: 48px; }
+      .valores-left { position: static; }
+    }
+
+    /* ═══════════════════════════════════════
+       CALCULADORA
+    ═══════════════════════════════════════ */
+    .calculator {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background: #F7F7F7;
+    }
+    .calculator::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 15%, black 85%, transparent 100%);
+      pointer-events: none;
+    }
+    .calculator .container { position: relative; z-index: 1; }
+    .calc-header { margin-bottom: 52px; max-width: 560px; }
+    .calc-header h2 {
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 900; color: var(--black);
+      letter-spacing: -.025em; line-height: 1.12; margin-bottom: 12px;
+    }
+    .calc-header p { font-size: 15px; color: var(--gray-600); line-height: 1.65; }
+
+    .calc-toggle { margin-bottom: 40px; }
+    .toggle-wrap {
+      display: inline-flex;
+      border: 1.5px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .toggle-btn {
+      padding: 10px 28px; border: none; background: transparent;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      color: var(--gray-600); transition: all .15s;
+    }
+    .toggle-btn:first-child { border-right: 1.5px solid var(--border); }
+    .toggle-btn.active { background: var(--black); color: var(--white); }
+
+    .calc-body { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+    .calc-inputs {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 36px;
+    }
+    .slider-group { margin-bottom: 32px; }
+    .slider-group:last-child { margin-bottom: 0; }
+    .slider-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+    .slider-label { font-size: 13px; font-weight: 600; color: var(--black); }
+    .slider-value { font-size: 17px; font-weight: 900; color: var(--red); }
+    input[type="range"] {
+      -webkit-appearance: none; width: 100%; height: 3px;
+      border-radius: 3px; outline: none; cursor: pointer;
+      background: linear-gradient(to right, var(--red) var(--pct, 33%), var(--border) var(--pct, 33%));
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--white);
+      border: 2.5px solid var(--red);
+      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+      cursor: pointer;
+    }
+    .slider-hints { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--gray-400); }
+
+    .calc-result { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: sticky; top: 80px; }
+    .cr-top { padding: 24px 24px 20px; background: var(--white); border-bottom: 1px solid var(--border); }
+    .cr-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px; }
+    .cr-amount { font-size: 38px; font-weight: 900; color: var(--red); line-height: 1; }
+    .cr-sub { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+    .cr-rows { padding: 16px 24px; background: var(--white); }
+    .cr-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--gray-50); font-size: 12px; }
+    .cr-row:last-child { border-bottom: none; }
+    .cr-row-lbl { color: var(--gray-600); }
+    .cr-row-val { font-weight: 700; color: var(--black); }
+    .cr-row-val.up { color: #1B7A3E; }
+    .cr-ops { padding: 16px 24px; background: var(--gray-50); border-top: 1px solid var(--border); text-align: center; }
+    .cr-ops-val { font-size: 26px; font-weight: 900; color: #1B7A3E; }
+    .cr-ops-lbl { font-size: 11px; color: var(--gray-600); margin-top: 2px; }
+    .cr-cta { display: block; text-align: center; margin: 16px 24px; }
+    .cr-note { font-size: 10px; color: var(--gray-400); text-align: center; padding: 0 24px 16px; line-height: 1.5; }
+
+    @media (max-width: 840px) { .calc-body { grid-template-columns: 1fr; } .calc-result { position: static; } }
+
+    /* ═══════════════════════════════════════
+       CASO GESTINCASA — dark, compacto
+    ═══════════════════════════════════════ */
+    .caso {
+      background: #141414;
+      padding: 88px 0;
+    }
+    .caso-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 40px;
+    }
+    .caso-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,.07);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    /* Panel izquierdo */
+    .caso-left {
+      background: #1C1C1C;
+      padding: 40px;
+    }
+    .caso-client-row {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+    }
+    .caso-logo-img {
+      width: 56px; height: 56px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      overflow: hidden; flex-shrink: 0;
+      background: #fff;
+    }
+    .caso-logo-img img { width: 100%; height: 100%; object-fit: contain; }
+    .caso-client-name { font-size: 17px; font-weight: 700; color: #fff; }
+    .caso-client-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 2px; }
+    .caso-desc {
+      font-size: 14px; color: rgba(255,255,255,.55);
+      line-height: 1.7; margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .caso-metrics { display: flex; flex-direction: column; gap: 0; }
+    .caso-metric {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .caso-metric:last-child { border-bottom: none; }
+    .caso-metric-val { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -.02em; }
+    .caso-metric-val.green { color: #4CAF50; }
+    .caso-metric-lbl { font-size: 12px; color: rgba(255,255,255,.4); text-align: right; max-width: 160px; line-height: 1.4; }
+
+    /* Panel derecho */
+    .caso-right {
+      background: #181818;
+      padding: 40px;
+    }
+    .caso-impact-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 12px;
+    }
+    .caso-impact-val {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900; color: #fff;
+      line-height: 1; letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+    .caso-impact-sub {
+      font-size: 14px; color: rgba(255,255,255,.45);
+      margin-bottom: 32px; line-height: 1.5;
+    }
+
+    /* Barras de comparacion */
+    .caso-bars { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
+    .caso-bar-item {}
+    .caso-bar-top {
+      display: flex; justify-content: space-between;
+      font-size: 12px; margin-bottom: 6px;
+    }
+    .caso-bar-top-lbl { color: rgba(255,255,255,.5); }
+    .caso-bar-top-val { font-weight: 700; color: #fff; }
+    .caso-bar-track {
+      height: 5px; background: rgba(255,255,255,.08);
+      border-radius: 3px; overflow: hidden;
+    }
+    .caso-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: var(--red);
+      transition: width .6s ease;
+    }
+    .caso-bar-fill.green { background: #4CAF50; }
+
+    /* Bloque horas recuperadas */
+    .caso-recovered {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .caso-rec-val {
+      font-size: 38px; font-weight: 900;
+      color: #4CAF50; flex-shrink: 0; line-height: 1;
+    }
+    .caso-rec-title { font-size: 14px; font-weight: 700; color: #fff; }
+    .caso-rec-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+    @media (max-width: 700px) {
+      .caso-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════
+       CTA FINAL
+    ═══════════════════════════════════════ */
+    .cta-final {
+      padding: 96px 0 88px; text-align: center;
+      border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 50% 120%, rgba(183,28,28,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 800px 300px at 50% -20%, rgba(0,0,0,.025) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-final .container { position: relative; z-index: 1; }
+    .cta-final-inner { max-width: 580px; margin: 0 auto; }
+    .cta-final h2 {
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 900; color: var(--black);
+      letter-spacing: -.03em; line-height: 1.1; margin-bottom: 18px;
+    }
+    .cta-final h2 em { font-style: normal; color: var(--red); }
+    .cta-final p { font-size: 16px; color: var(--gray-600); line-height: 1.65; margin-bottom: 36px; }
+    .cta-final-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-final-note { font-size: 12px; color: var(--gray-400); margin-top: 16px; }
+
+    /* ── FOOTER ── */
+    footer { padding: 28px 0; background: var(--gray-50); border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { font-size: 16px; font-weight: 900; color: var(--red); }
+    .footer-copy { font-size: 12px; color: var(--gray-400); }
+    .footer-email a { font-size: 12px; color: var(--gray-600); text-decoration: none; }
+    .footer-email a:hover { color: var(--black); }
+
+    /* ── Fade in ── */
+    [data-fade] { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+    [data-fade].in { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">ASBE</a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#calculadora">Calculadora</a></li>
+        <li><a href="#caso">Caso de exito</a></li>
+      </ul>
+      <a href="https://calendar.app.google/gmzV5ZdDFm3dAgZr5" class="btn btn-primary">Agenda una llamada</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Automatizacion para agencias inmobiliarias</div>
+        <h1>Vende un <em>75% mas rapido</em> con un sistema que supone el <em>0,006%</em> de tu cartera</h1>
+        <p class="hero-sub">Automatizamos la gestion de leads, la cualificacion y el agendamiento de visitas para que tu equipo solo hable con compradores con intencion real.</p>
+        <div class="hero-actions">
+          <a href="https://calendar.app.google/gmzV5ZdDFm3dAgZr5" class="btn btn-primary">Agenda una llamada gratuita</a>
+          <a href="#calculadora" class="btn btn-ghost">Calcula tu ROI</a>
+        </div>
+        <p class="hero-footnote">Sin permanencia. Sin compromiso.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="container">
+    <div class="strip-inner">
+      <div class="strip-label">Resultados</div>
+      <div class="strip-items">
+        <div class="strip-item">
+          <span class="strip-item-val">−91%</span>
+          <span class="strip-item-lbl">tiempo en gestion de leads</span>
+        </div>
+        <div class="strip-item">
+          <span class="strip-item-val">&lt; 14 dias</span>
+          <span class="strip-item-lbl">de lead a contrato</span>
+        </div>
+        <div class="strip-item">
+          <span class="strip-item-val">30 – 40</span>
+          <span class="strip-item-lbl">leads / anuncio gestionados</span>
+        </div>
+        <div class="strip-item">
+          <span class="strip-item-val">+22 h/mes</span>
+          <span class="strip-item-lbl">recuperadas por agente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALORES — solo 02, 04, 06 -->
+<section class="valores" id="servicios">
+  <div class="container">
+    <div class="valores-inner">
+      <div class="valores-left" data-fade>
+        <div class="section-eyebrow">Lo que resolvemos</div>
+        <h2>No es un software, es un acompañamiento a conseguir tus KPI</h2>
+      </div>
+
+      <div class="valores-list">
+        <div class="valor-item" data-fade>
+          <div class="valor-num">01</div>
+          <div class="valor-content">
+            <div class="valor-title">Leads cualificados listos para visitar</div>
+            <div class="valor-desc">Tu equipo deja de perder tiempo con curiosos. Solo habla con compradores que tienen intencion real y cumplen los requisitos del inmueble.</div>
+          </div>
+        </div>
+        <div class="valor-item" data-fade>
+          <div class="valor-num">02</div>
+          <div class="valor-content">
+            <div class="valor-title">Captacion de vendedores para obtener exclusivas</div>
+            <div class="valor-desc">Nuevas exclusivas sin invertir tiempo en prospeccion manual. El sistema identifica y contacta propietarios de forma sistematica.</div>
+          </div>
+        </div>
+        <div class="valor-item" data-fade>
+          <div class="valor-num">03</div>
+          <div class="valor-content">
+            <div class="valor-title">Velocidad de venta multiplicada</div>
+            <div class="valor-desc">Vende un 75% mas rapido tus propiedades. Menos dias en cartera, mas rotacion y mejores resultados para tu agencia.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULADORA -->
+<section class="calculator" id="calculadora">
+  <div class="container">
+    <div class="calc-header" data-fade>
+      <div class="section-eyebrow">Calculadora ROI</div>
+      <h2>¿Cuanto dinero pierdes cada mes?</h2>
+      <p>Introduce los datos de tu agencia y calcula el coste real de gestionar leads manualmente.</p>
+    </div>
+
+    <div class="calc-toggle">
+      <div class="toggle-wrap">
+        <button class="toggle-btn active" id="btnVenta" onclick="setMode('venta')">Venta</button>
+        <button class="toggle-btn" id="btnAlquiler" onclick="setMode('alquiler')">Alquiler</button>
+      </div>
+    </div>
+
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <div class="slider-group">
+          <div class="slider-top">
+            <span class="slider-label">Leads recibidos al mes</span>
+            <span class="slider-value" id="valLeads">60</span>
+          </div>
+          <input type="range" id="sLeads" min="10" max="300" value="60"
+            oninput="syncSlider(this,'valLeads','n'); calcROI()" />
+          <div class="slider-hints"><span>10</span><span>300</span></div>
+        </div>
+        <div class="slider-group">
+          <div class="slider-top">
+            <span class="slider-label" id="lPrecio">Precio medio de la vivienda</span>
+            <span class="slider-value" id="valPrecio">200.000 €</span>
+          </div>
+          <input type="range" id="sPrecio" min="50000" max="1000000" step="5000" value="200000"
+            oninput="syncSlider(this,'valPrecio','eur'); calcROI()" />
+          <div class="slider-hints"><span id="phMin">50.000 €</span><span id="phMax">1.000.000 €</span></div>
+        </div>
+        <div class="slider-group">
+          <div class="slider-top">
+            <span class="slider-label" id="lComision">Comision (%)</span>
+            <span class="slider-value" id="valComision">3%</span>
+          </div>
+          <input type="range" id="sComision" min="1" max="6" step="0.5" value="3"
+            oninput="syncSlider(this,'valComision','com'); calcROI()" />
+          <div class="slider-hints"><span id="chMin">1%</span><span id="chMax">6%</span></div>
+        </div>
+        <div class="slider-group">
+          <div class="slider-top">
+            <span class="slider-label">Tasa de conversion actual (lead a operacion)</span>
+            <span class="slider-value" id="valConv">5%</span>
+          </div>
+          <input type="range" id="sConv" min="1" max="20" step="1" value="5"
+            oninput="syncSlider(this,'valConv','pct'); calcROI()" />
+          <div class="slider-hints"><span>1%</span><span>20%</span></div>
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div class="cr-top">
+          <div class="cr-label">Pierdes al mes sin ASBE</div>
+          <div class="cr-amount" id="resLoss">—</div>
+          <div class="cr-sub">en ingresos no capturados</div>
+        </div>
+        <div class="cr-rows">
+          <div class="cr-row">
+            <span class="cr-row-lbl">Operaciones actuales / mes</span>
+            <span class="cr-row-val" id="resNow">—</span>
+          </div>
+          <div class="cr-row">
+            <span class="cr-row-lbl">Operaciones con ASBE / mes</span>
+            <span class="cr-row-val up" id="resWith">—</span>
+          </div>
+          <div class="cr-row">
+            <span class="cr-row-lbl">Ingresos actuales / mes</span>
+            <span class="cr-row-val" id="resIncNow">—</span>
+          </div>
+          <div class="cr-row">
+            <span class="cr-row-lbl">Ingresos con ASBE / mes</span>
+            <span class="cr-row-val up" id="resIncWith">—</span>
+          </div>
+        </div>
+        <div class="cr-ops">
+          <div class="cr-ops-val" id="resOpsGained">—</div>
+          <div class="cr-ops-lbl">operaciones adicionales con ASBE / mes</div>
+        </div>
+        <a href="https://calendar.app.google/gmzV5ZdDFm3dAgZr5" class="btn btn-primary cr-cta">Recuperar ese dinero</a>
+        <p class="cr-note">Estimacion orientativa basada en mejora de conversion x2.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASO GESTINCASA -->
+<section class="caso" id="caso">
+  <div class="container">
+    <div class="caso-eyebrow" data-fade>Caso de exito</div>
+    <div class="caso-grid" data-fade>
+
+      <!-- Panel izquierdo -->
+      <div class="caso-left">
+        <div class="caso-client-row">
+          <div class="caso-logo-img">
+            <img src="gestincasa.png" alt="Gestincasa" />
+          </div>
+          <div>
+            <div class="caso-client-name">Gestincasa</div>
+            <div class="caso-client-sub">Agencia de Gestion Inmobiliaria · Malaga</div>
+          </div>
+        </div>
+        <p class="caso-desc">Cada anuncio publicado genera entre 30 y 40 contactos. El sistema los gestiona y cualifica de forma automatica — agendando visitas solo con los interesados reales — en menos de 24 horas.</p>
+        <div class="caso-metrics">
+          <div class="caso-metric">
+            <div class="caso-metric-val">30 – 40</div>
+            <div class="caso-metric-lbl">contactos gestionados automaticamente por anuncio</div>
+          </div>
+          <div class="caso-metric">
+            <div class="caso-metric-val green">~20%</div>
+            <div class="caso-metric-lbl">conversion de contacto a visita cualificada agendada</div>
+          </div>
+          <div class="caso-metric">
+            <div class="caso-metric-val">&lt; 2 sem.</div>
+            <div class="caso-metric-lbl">de primer contacto a contrato firmado</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel derecho -->
+      <div class="caso-right">
+        <div class="caso-impact-label">Impacto real</div>
+        <div class="caso-impact-val">−91% tiempo<br>en gestion de leads</div>
+        <div class="caso-impact-sub">El agente recupera 22 horas al mes. Menos friccion, mas cierres.</div>
+
+        <div class="caso-bars">
+          <div class="caso-bar-item">
+            <div class="caso-bar-top">
+              <span class="caso-bar-top-lbl">Antes — gestion manual</span>
+              <span class="caso-bar-top-val">6 h / dia</span>
+            </div>
+            <div class="caso-bar-track"><div class="caso-bar-fill" style="width:100%"></div></div>
+          </div>
+          <div class="caso-bar-item">
+            <div class="caso-bar-top">
+              <span class="caso-bar-top-lbl">Ahora — sistema automatizado</span>
+              <span class="caso-bar-top-val">30 min</span>
+            </div>
+            <div class="caso-bar-track"><div class="caso-bar-fill green" style="width:8%"></div></div>
+          </div>
+          <div class="caso-bar-item">
+            <div class="caso-bar-top">
+              <span class="caso-bar-top-lbl">Tiempo de cierre antes</span>
+              <span class="caso-bar-top-val">+30 dias</span>
+            </div>
+            <div class="caso-bar-track"><div class="caso-bar-fill" style="width:100%"></div></div>
+          </div>
+          <div class="caso-bar-item">
+            <div class="caso-bar-top">
+              <span class="caso-bar-top-lbl">Tiempo de cierre ahora</span>
+              <span class="caso-bar-top-val">&lt; 14 dias</span>
+            </div>
+            <div class="caso-bar-track"><div class="caso-bar-fill green" style="width:47%"></div></div>
+          </div>
+        </div>
+
+        <div class="caso-recovered">
+          <div class="caso-rec-val">+22 h</div>
+          <div>
+            <div class="caso-rec-title">Horas recuperadas al mes</div>
+            <div class="caso-rec-sub">por agente, dedicadas a cerrar en lugar de gestionar</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="container">
+    <div class="cta-final-inner" data-fade>
+      <div class="section-eyebrow" style="text-align:center;display:block;">Empieza hoy</div>
+      <h2>Ayer fue el mejor momento.<br><em>Hoy es el segundo mejor.</em></h2>
+      <p>Agenda una llamada gratuita de 30 minutos. Te mostramos exactamente lo que el sistema puede hacer por tu agencia, sin compromiso.</p>
+      <div class="cta-final-actions">
+        <a href="https://calendar.app.google/gmzV5ZdDFm3dAgZr5" class="btn btn-primary" style="font-size:15px;padding:15px 36px;">Agenda tu llamada gratuita</a>
+        <a href="#calculadora" class="btn btn-ghost">Ver la calculadora</a>
+      </div>
+      <p class="cta-final-note">Sin compromiso · Resultados en menos de 2 semanas</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">ASBE</div>
+      <div class="footer-copy">© 2025 ASBE · Automation Systems for Business Empowered</div>
+      <div class="footer-email"><a href="mailto:contacto@asbeai.com">contacto@asbeai.com</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+let mode = 'venta';
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btnVenta').classList.toggle('active', m==='venta');
+  document.getElementById('btnAlquiler').classList.toggle('active', m==='alquiler');
+  const sp = document.getElementById('sPrecio'), sc = document.getElementById('sComision');
+  if (m==='venta') {
+    document.getElementById('lPrecio').textContent='Precio medio de la vivienda';
+    document.getElementById('lComision').textContent='Comision (%)';
+    sp.min=50000; sp.max=1000000; sp.step=5000; sp.value=200000;
+    sc.min=1; sc.max=6; sc.step=0.5; sc.value=3;
+    document.getElementById('phMin').textContent='50.000 €';
+    document.getElementById('phMax').textContent='1.000.000 €';
+    document.getElementById('chMin').textContent='1%';
+    document.getElementById('chMax').textContent='6%';
+  } else {
+    document.getElementById('lPrecio').textContent='Renta mensual media';
+    document.getElementById('lComision').textContent='Meses de comision';
+    sp.min=500; sp.max=5000; sp.step=50; sp.value=1200;
+    sc.min=1; sc.max=2; sc.step=1; sc.value=1;
+    document.getElementById('phMin').textContent='500 €';
+    document.getElementById('phMax').textContent='5.000 €';
+    document.getElementById('chMin').textContent='1 mes';
+    document.getElementById('chMax').textContent='2 meses';
+  }
+  syncSlider(sp,'valPrecio','eur');
+  syncSlider(sc,'valComision','com');
+  updateAllPct(); calcROI();
+}
+
+function fmtEur(n) { return n.toLocaleString('es-ES',{maximumFractionDigits:0})+' €'; }
+
+function syncSlider(el,id,type) {
+  const v = parseFloat(el.value);
+  const span = document.getElementById(id);
+  if (type==='eur') span.textContent = v.toLocaleString('es-ES')+' €';
+  else if (type==='com') span.textContent = mode==='venta' ? v+'%' : v+(v===1?' mes':' meses');
+  else if (type==='pct') span.textContent = v+'%';
+  else span.textContent = el.value;
+  updatePct(el);
+}
+
+function updatePct(el) {
+  const pct = ((el.value-el.min)/(el.max-el.min))*100;
+  el.style.setProperty('--pct', pct+'%');
+}
+
+function updateAllPct() {
+  document.querySelectorAll('input[type="range"]').forEach(updatePct);
+}
+
+function calcROI() {
+  const leads = parseInt(document.getElementById('sLeads').value);
+  const precio = parseFloat(document.getElementById('sPrecio').value);
+  const comision = parseFloat(document.getElementById('sComision').value);
+  const conv = parseFloat(document.getElementById('sConv').value)/100;
+  const comPerOp = mode==='venta' ? precio*(comision/100) : precio*comision;
+  const opsNow = leads*conv;
+  const opsWith = Math.min(leads*conv*2, leads);
+  const gained = opsWith-opsNow;
+  const incNow = opsNow*comPerOp;
+  const incWith = opsWith*comPerOp;
+  const loss = incWith-incNow;
+  document.getElementById('resLoss').textContent = fmtEur(loss);
+  document.getElementById('resNow').textContent = opsNow.toFixed(1);
+  document.getElementById('resWith').textContent = opsWith.toFixed(1);
+  document.getElementById('resIncNow').textContent = fmtEur(incNow);
+  document.getElementById('resIncWith').textContent = fmtEur(incWith);
+  document.getElementById('resOpsGained').textContent = '+'+gained.toFixed(1);
+}
+
+updateAllPct(); calcROI();
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i*70);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('[data-fade]').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
